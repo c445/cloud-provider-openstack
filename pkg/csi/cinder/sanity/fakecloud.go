@@ -191,3 +191,7 @@ func randString(n int) string {
 	}
 	return string(b)
 }
+
+func (cloud *cloud) ExpandVolume(volumeID string, size int) error {
+	return nil
+}
