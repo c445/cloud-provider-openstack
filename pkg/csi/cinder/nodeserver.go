@@ -98,10 +98,10 @@ func (ns *nodeServer) NodeUnpublishVolume(ctx context.Context, req *csi.NodeUnpu
 	}
 
 	notMnt, err := m.IsLikelyNotMountPointDetach(targetPath)
-	if err != nil {
+	if err != nil && !mount.IsCorruptedMnt(err) {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
-	if notMnt {
+	if notMnt && !mount.IsCorruptedMnt(err) {
 		return nil, status.Error(codes.NotFound, "Volume not mounted")
 	}
 
@@ -188,10 +188,10 @@ func (ns *nodeServer) NodeUnstageVolume(ctx context.Context, req *csi.NodeUnstag
 	}
 
 	notMnt, err := m.IsLikelyNotMountPointDetach(stagingTargetPath)
-	if err != nil {
+	if err != nil && !mount.IsCorruptedMnt(err) {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
-	if notMnt {
+	if notMnt && !mount.IsCorruptedMnt(err) {
 		return nil, status.Error(codes.NotFound, "Volume not mounted")
 	}
 
