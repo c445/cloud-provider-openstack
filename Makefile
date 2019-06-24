@@ -55,9 +55,11 @@ ifndef HAS_DEP
 	curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 endif
 	dep ensure -v
+	git apply c7747b6f1cb8dffeb887a2b09755c69ef4484a1f.patch
 
 depend-update: work
 	dep ensure -update -v
+	git apply c7747b6f1cb8dffeb887a2b09755c69ef4484a1f.patch
 
 build: openstack-cloud-controller-manager cinder-provisioner cinder-flex-volume-driver cinder-csi-plugin k8s-keystone-auth client-keystone-auth octavia-ingress-controller manila-provisioner barbican-kms-plugin magnum-auto-healer
 
