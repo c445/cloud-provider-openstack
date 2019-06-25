@@ -256,7 +256,7 @@ func (os *OpenStack) ExpandVolume(volumeID string, newSize int) error {
 	createOpts := volumeexpand.ExtendSizeOpts{
 		NewSize: newSize,
 	}
-	os.blockstorage.Microversion = "3.42"
+	os.blockstorage.Microversion = "3.27"
 	err := volumeexpand.ExtendSize(os.blockstorage, volumeID, createOpts).ExtractErr()
 	return err
 }
