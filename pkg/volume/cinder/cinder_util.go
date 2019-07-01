@@ -27,7 +27,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/klog"
 
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
 	clientset "k8s.io/client-go/kubernetes"
 	"k8s.io/cloud-provider/volume/helpers"
@@ -248,14 +248,14 @@ func probeAttachedVolume() error {
 	// events for all hardware devices, thus ensuring that any device
 	// nodes have been created successfully before proceeding.
 	argsSettle := []string{"settle"}
-	cmdSettle := executor.Command("udevadm", argsSettle...)
+	cmdSettle := executor.Command("/bin/udevadm", argsSettle...)
 	_, errSettle := cmdSettle.CombinedOutput()
 	if errSettle != nil {
 		klog.Errorf("error running udevadm settle %v\n", errSettle)
 	}
 
 	args := []string{"trigger"}
-	cmd := executor.Command("udevadm", args...)
+	cmd := executor.Command("/bin/udevadm", args...)
 	_, err := cmd.CombinedOutput()
 	if err != nil {
 		klog.Errorf("error running udevadm trigger %v\n", err)

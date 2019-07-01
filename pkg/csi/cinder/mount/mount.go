@@ -90,7 +90,7 @@ func probeVolume() error {
 
 	executor := utilexec.New()
 	args := []string{"trigger"}
-	cmd := executor.Command("udevadm", args...)
+	cmd := executor.Command("/bin/udevadm", args...)
 	_, err := cmd.CombinedOutput()
 	if err != nil {
 		klog.V(3).Infof("error running udevadm trigger %v\n", err)
