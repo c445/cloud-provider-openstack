@@ -882,16 +882,18 @@ func (lbaas *LbaasV2) EnsureLoadBalancer(ctx context.Context, clusterName string
 	}
 
 	var listenerAllowedCIDRs []string
-	sourceRanges, err := v1service.GetLoadBalancerSourceRanges(apiService)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get source ranges for loadbalancer service %s: %v", serviceName, err)
-	}
-	if lbaas.opts.UseOctavia && openstackutil.IsOctaviaFeatureSupported(lbaas.lb, openstackutil.OctaviaFeatureVIPACL) {
-		klog.V(4).Info("loadBalancerSourceRanges is suppported")
-		listenerAllowedCIDRs = sourceRanges.StringSlice()
-	} else if !v1service.IsAllowAll(sourceRanges) && !lbaas.opts.ManageSecurityGroups {
-		return nil, fmt.Errorf("source range restrictions are not supported for openstack load balancers without managing security groups")
-	}
+	klog.V(4).Info("loadBalancerSourceRanges are handled by the CaaS FWaaS controller")
+	//sourceRanges, err := v1service.GetLoadBalancerSourceRanges(apiService)
+	//if err != nil {
+	//	return nil, fmt.Errorf("failed to get source ranges for loadbalancer service %s: %v", serviceName, err)
+	//}
+
+	//if lbaas.opts.UseOctavia && openstackutil.IsOctaviaFeatureSupported(lbaas.lb, openstackutil.OctaviaFeatureVIPACL) {
+	//	klog.V(4).Info("loadBalancerSourceRanges is suppported")
+	//	listenerAllowedCIDRs = sourceRanges.StringSlice()
+	//} else if !v1service.IsAllowAll(sourceRanges) && !lbaas.opts.ManageSecurityGroups {
+	//	return nil, fmt.Errorf("source range restrictions are not supported for openstack load balancers without managing security groups")
+	//}
 
 	affinity := apiService.Spec.SessionAffinity
 	var persistence *v2pools.SessionPersistence
